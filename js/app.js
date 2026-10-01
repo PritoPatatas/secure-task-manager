@@ -1,6 +1,3 @@
-// Secure Dynamic Task Manager
-// Task markup is built only with createElement() and textContent.
-
 const taskInput = document.getElementById("taskInput");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const loadSamplesBtn = document.getElementById("loadSamplesBtn");
@@ -13,7 +10,6 @@ const completedCount = document.getElementById("completedCount");
 const EMPTY_MESSAGE = "Task cannot be empty";
 let taskCounter = 0;
 
-// Generates an ID that is unique even if one is already in the DOM.
 function generateTaskId() {
   let id;
   do {
@@ -30,8 +26,6 @@ function showMessage(text) {
 function clearMessage() {
   taskMessage.textContent = "";
 }
-
-// Creates and returns one task <li>. Does NOT attach it to #taskList.
 function createTaskElement(taskText, taskId) {
   const li = document.createElement("li");
   li.classList.add("task-item");
@@ -60,8 +54,6 @@ function createTaskElement(taskText, taskId) {
   li.append(span, completeBtn, editBtn, removeBtn);
   return li;
 }
-
-// Validates, creates, appends, and resets the form.
 function addTask(taskText) {
   const text = taskText.trim();
   if (text === "") {
@@ -76,14 +68,11 @@ function addTask(taskText) {
   clearMessage();
   updateTaskCounts();
 }
-
 function toggleTaskComplete(taskItem) {
   const isCompleted = taskItem.classList.toggle("completed");
   taskItem.dataset.state = isCompleted ? "completed" : "pending";
   updateTaskCounts();
 }
-
-// Swaps the task text span for an edit input; Edit button becomes Save.
 function beginTaskEdit(taskItem) {
   const span = taskItem.querySelector(".task-text");
   if (!span) return;
@@ -97,8 +86,6 @@ function beginTaskEdit(taskItem) {
   taskItem.querySelector(".edit-btn").textContent = "Save";
   input.focus();
 }
-
-// Validates the edit, swaps the input back for a span; Save becomes Edit.
 function saveTaskEdit(taskItem) {
   const input = taskItem.querySelector(".edit-input");
   if (!input) return;
@@ -122,8 +109,6 @@ function removeTask(taskItem) {
   taskItem.remove();
   updateTaskCounts();
 }
-
-// Counts are always derived from the live DOM.
 function updateTaskCounts() {
   const items = taskList.querySelectorAll(".task-item");
   let completed = 0;
@@ -135,8 +120,6 @@ function updateTaskCounts() {
   completedCount.textContent = completed;
   pendingCount.textContent = items.length - completed;
 }
-
-// The single delegated click handler for all task-level actions.
 function handleTaskListClick(event) {
   const target = event.target;
   if (!target.matches("button")) return;
@@ -157,8 +140,6 @@ function handleTaskListClick(event) {
     removeTask(taskItem);
   }
 }
-
-// Builds the three sample tasks in a DocumentFragment, appended once.
 function loadSampleTasks() {
   const samples = [
     "Review DOM selectors",
@@ -175,8 +156,6 @@ function loadSampleTasks() {
   clearMessage();
   updateTaskCounts();
 }
-
-// Event wiring: exactly one click listener on #taskList.
 taskList.addEventListener("click", handleTaskListClick);
 addTaskBtn.addEventListener("click", function () {
   addTask(taskInput.value);
